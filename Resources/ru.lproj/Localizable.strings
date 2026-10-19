@@ -159,3 +159,5 @@
 "checked %d d ago" = "обновлено %d д назад";
 "Show Claude Status" = "Статус Claude";
 "Show Spending" = "Расходы";
+/* Источник музыки */
+"Automatically" = "Автоматически";

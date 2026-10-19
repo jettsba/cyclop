@@ -48,6 +48,7 @@ final class ConfigStore: ObservableObject {
         var hiddenTabs: [String] = []
         var fullSizeDrawnNotch = false
         var ai = AI()
+        var mediaSource = ""
 
         init() {}
 
@@ -66,6 +67,7 @@ final class ConfigStore: ObservableObject {
             hiddenTabs = try c.decodeIfPresent([String].self, forKey: .hiddenTabs) ?? d.hiddenTabs
             fullSizeDrawnNotch = try c.decodeIfPresent(Bool.self, forKey: .fullSizeDrawnNotch) ?? d.fullSizeDrawnNotch
             ai = try c.decodeIfPresent(AI.self, forKey: .ai) ?? d.ai
+            mediaSource = try c.decodeIfPresent(String.self, forKey: .mediaSource) ?? d.mediaSource
         }
     }
 
@@ -159,6 +161,13 @@ final class ConfigStore: ObservableObject {
     var aiShowsSpending: Bool {
         get { value.ai.showSpending }
         set { objectWillChange.send(); value.ai.showSpending = newValue; persist() }
+    }
+
+    /// Bundle id of the app the music tab follows; empty leaves it to the
+    /// system, which is the default.
+    var mediaSource: String {
+        get { value.mediaSource }
+        set { value.mediaSource = newValue; persist() }
     }
 
     // MARK: - Migration
