@@ -164,3 +164,8 @@
 "Automatically" = "Automatically";
 /* Динамический остров */
 "Dynamic Island" = "Dynamic Island";
+"%d min" = "%d min";
+"%d h" = "%d h";
+"%d h %d min" = "%d h %d min";
+"%d d" = "%d d";
+"Show AI Tab" = "Show AI Tab";

@@ -163,3 +163,10 @@
 "Automatically" = "Автоматически";
 /* Динамический остров */
 "Dynamic Island" = "Dynamic Island";
+"Show Claude Status" = "Показывать статус Claude";
+"Show Spending" = "Показывать расходы";
+"%d min" = "%d мин";
+"%d h" = "%d ч";
+"%d h %d min" = "%d ч %d мин";
+"%d d" = "%d дн";
+"Show AI Tab" = "Показывать вкладку ИИ";
