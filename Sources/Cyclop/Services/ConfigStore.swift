@@ -50,6 +50,7 @@ final class ConfigStore: ObservableObject {
         var ai = AI()
         var mediaSource = ""
         var dynamicIsland = false
+        var liveEqualizer = false
 
         init() {}
 
@@ -70,6 +71,7 @@ final class ConfigStore: ObservableObject {
             ai = try c.decodeIfPresent(AI.self, forKey: .ai) ?? d.ai
             mediaSource = try c.decodeIfPresent(String.self, forKey: .mediaSource) ?? d.mediaSource
             dynamicIsland = try c.decodeIfPresent(Bool.self, forKey: .dynamicIsland) ?? d.dynamicIsland
+            liveEqualizer = try c.decodeIfPresent(Bool.self, forKey: .liveEqualizer) ?? d.liveEqualizer
         }
     }
 
@@ -178,6 +180,13 @@ final class ConfigStore: ObservableObject {
     var dynamicIsland: Bool {
         get { value.dynamicIsland }
         set { value.dynamicIsland = newValue; persist() }
+    }
+
+    /// The island's bars follow the sound. Off by default: it is the one
+    /// switch in the app that makes macOS ask for a permission.
+    var liveEqualizer: Bool {
+        get { value.liveEqualizer }
+        set { value.liveEqualizer = newValue; persist() }
     }
 
     // MARK: - Migration
