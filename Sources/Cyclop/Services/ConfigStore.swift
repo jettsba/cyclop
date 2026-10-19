@@ -49,6 +49,7 @@ final class ConfigStore: ObservableObject {
         var fullSizeDrawnNotch = false
         var ai = AI()
         var mediaSource = ""
+        var dynamicIsland = false
 
         init() {}
 
@@ -68,6 +69,7 @@ final class ConfigStore: ObservableObject {
             fullSizeDrawnNotch = try c.decodeIfPresent(Bool.self, forKey: .fullSizeDrawnNotch) ?? d.fullSizeDrawnNotch
             ai = try c.decodeIfPresent(AI.self, forKey: .ai) ?? d.ai
             mediaSource = try c.decodeIfPresent(String.self, forKey: .mediaSource) ?? d.mediaSource
+            dynamicIsland = try c.decodeIfPresent(Bool.self, forKey: .dynamicIsland) ?? d.dynamicIsland
         }
     }
 
@@ -168,6 +170,14 @@ final class ConfigStore: ObservableObject {
     var mediaSource: String {
         get { value.mediaSource }
         set { value.mediaSource = newValue; persist() }
+    }
+
+    /// The folded notch grows wings while music plays: the cover on the left,
+    /// an equalizer on the right. Off by default — it covers a strip of the
+    /// menu bar on both sides of the notch.
+    var dynamicIsland: Bool {
+        get { value.dynamicIsland }
+        set { value.dynamicIsland = newValue; persist() }
     }
 
     // MARK: - Migration
