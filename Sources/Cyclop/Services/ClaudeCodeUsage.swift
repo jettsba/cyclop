@@ -50,7 +50,11 @@ enum ClaudeCodeUsage {
         process.standardError = FileHandle.nullDevice
         do { try process.run() } catch { return nil }
 
-        let deadline = DispatchWorkItem { if process.isRunning { process.terminate() } }
+        // The pid, not the process object, crosses to the timer's thread; the
+        // timer is cancelled before this function returns, so the pid cannot
+        // have been handed to another process by then.
+        let pid = process.processIdentifier
+        let deadline = DispatchWorkItem { kill(pid, SIGTERM) }
         DispatchQueue.global().asyncAfter(deadline: .now() + timeout, execute: deadline)
         defer {
             deadline.cancel()
