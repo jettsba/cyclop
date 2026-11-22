@@ -257,21 +257,23 @@ struct NotchGeometry {
         CGSize(width: notchSize.width + 2 * (notchSize.height + 6), height: notchSize.height)
     }
 
-    /// Hover target while collapsed, in global screen coordinates. Slightly
-    /// taller than the notch so the panel opens just before the pointer lands.
+    /// Hover target while collapsed, in global screen coordinates.
+    ///
+    /// No deeper than the notch itself. A hole used to get 4 pt of slack below
+    /// it, so the panel would open just before the pointer landed — but right
+    /// below a hole lies the top of whatever window is under the menu bar, and
+    /// in a browser that is the tab strip. The slack was the top of the tabs
+    /// in the middle of the screen: a pointer resting there, about to click a
+    /// tab, opened the panel over the very tab it was clicking.
     var hoverRect: CGRect { hoverRect(folded: collapsedSize) }
 
     /// The same for a folded body of another size — the island's.
     func hoverRect(folded size: CGSize) -> CGRect {
-        // The slack is what makes the panel open just before the pointer lands.
-        // Only a hole gets it: under a notch we drew there is a menu bar or
-        // somebody's content, and either would feel it.
-        let slack: CGFloat = isPhysical ? 4 : 0
-        return includingTopEdge(CGRect(
+        includingTopEdge(CGRect(
             x: notchCenterX - size.width / 2 - 6,
-            y: screen.frame.maxY - size.height - slack,
+            y: screen.frame.maxY - size.height,
             width: size.width + 12,
-            height: size.height + slack
+            height: size.height
         ))
     }
 

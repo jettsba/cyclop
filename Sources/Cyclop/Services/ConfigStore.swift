@@ -51,6 +51,7 @@ final class ConfigStore: ObservableObject {
         var mediaSource = ""
         var dynamicIsland = false
         var liveEqualizer = false
+        var openDelay: Double = 0.2
 
         init() {}
 
@@ -72,6 +73,7 @@ final class ConfigStore: ObservableObject {
             mediaSource = try c.decodeIfPresent(String.self, forKey: .mediaSource) ?? d.mediaSource
             dynamicIsland = try c.decodeIfPresent(Bool.self, forKey: .dynamicIsland) ?? d.dynamicIsland
             liveEqualizer = try c.decodeIfPresent(Bool.self, forKey: .liveEqualizer) ?? d.liveEqualizer
+            openDelay = try c.decodeIfPresent(Double.self, forKey: .openDelay) ?? d.openDelay
         }
     }
 
@@ -121,6 +123,26 @@ final class ConfigStore: ObservableObject {
         get { value.fullSizeDrawnNotch }
         set { value.fullSizeDrawnNotch = newValue; persist() }
     }
+
+    /// Seconds the pointer has to stay on the notch before the panel opens.
+    /// 0.2 by default — see `NotchScreenPanel.build` for why not less. A
+    /// setting because the line between "came to open it" and "overshot on
+    /// the way to a tab" runs through somebody's hand and habits: whoever
+    /// never aims at tabs under the notch can have it back at 50 ms, whoever
+    /// still catches it by accident can push it further.
+    ///
+    /// Held to `openDelayRange` on the way out. The file is edited by hand
+    /// too (#67), and `10` typed for milliseconds is ten seconds — a panel
+    /// that practically never opens, guarding the one switch that could fix
+    /// it. Clamped here, the pointer watcher and the slider both get a sane
+    /// number, and the file cannot ask for what the screen does not show.
+    var openDelay: Double {
+        get { min(max(value.openDelay, Self.openDelayRange.lowerBound), Self.openDelayRange.upperBound) }
+        set { value.openDelay = newValue; persist() }
+    }
+
+    /// What the slider offers, and so all `openDelay` can be.
+    static let openDelayRange: ClosedRange<Double> = 0.05...0.6
 
     /// Off switch for people who copy images all day and do not want them
     /// kept. Defaults to on: the feature is the reason the folder exists.
