@@ -11,8 +11,26 @@ files, clipboard history and your next meetings.
 
 ![The Cyclop panel](docs/panel.png)
 
-**[Download the latest version](https://github.com/akalikbergenov/cyclop/releases/latest)** —
-macOS 15 or newer. Signed and notarised, so it opens on the first try.
+> **This is a fork** of [akalikbergenov/cyclop](https://github.com/akalikbergenov/cyclop)
+> with a few features that are not upstream yet:
+>
+> - **AI tab** on the right rail — Claude session and weekly limits with time
+>   to reset, spending from the local Claude Code logs, and whether Claude is
+>   working right now. Everything is read from files on this Mac.
+> - **Dynamic Island** — while music plays, the folded notch grows into an
+>   island with the cover on the left and an equalizer on the right. It stays
+>   put when you switch Spaces. Optionally the equalizer follows the actual
+>   sound (asks for System Audio Recording permission). Toggles in Settings.
+> - **Music source picker** — click the source name in the Music tab to choose
+>   which of the playing apps the panel shows and controls.
+> - Clipboard screenshots land on the shelf even when the Clipboard tab is
+>   hidden.
+>
+> The fork has no signed releases — build it from source, see
+> [Building](#building). Signed upstream builds without these features are on
+> the [upstream releases page](https://github.com/akalikbergenov/cyclop/releases/latest).
+>
+> macOS 15 or newer.
 
 ```
 0.0 % CPU at rest  ·  ≈40 MB + 14 MB helper  ·  3.7 MB bundle  ·  nothing asked at launch
@@ -62,7 +80,7 @@ area at the top centre of the screen as one.
 ## Building
 
 ```bash
-git clone https://github.com/akalikbergenov/cyclop.git
+git clone https://github.com/jettsba/cyclop.git
 cd cyclop
 ./Scripts/bundle.sh          # swift build + assemble the .app + ad-hoc sign
 open build/Cyclop.app
@@ -75,6 +93,11 @@ swift Scripts/make-icon.swift "$PWD/Resources/AppIcon.icns"
 ```
 
 ## Installation
+
+**In this fork:** the image from `./Scripts/dmg.sh` is ad-hoc signed and not
+notarised. It opens right away on the Mac that built it; anywhere else the first
+launch goes through "Open Anyway" (see below). The notes on notarisation below
+are about upstream releases.
 
 Open `Cyclop-<version>.dmg` and drag the app into Applications. It opens on
 the first try: since 0.8.0 the image is signed with a Developer ID and
